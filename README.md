@@ -24,10 +24,10 @@ terraform init
 terraform apply -auto-approve
 
 # Build Docker image
-docker build -t <ACR_NAME>.azurecr.io/python-app:v1 .
+docker build -t containerregistry0011.azurecr.io/python-app:v1 .
 
 # Log in to Azure Container Registry
-az acr login --name <ACR_NAME>
+az acr login --name containerregistry0011
 
 # Push image to ACR
 docker push <ACR_NAME>.azurecr.io/python-app:v1
@@ -96,3 +96,5 @@ This repository contains both:
    - Blue/Green traffic shift
 
 
+#####  URL to browse
+https://container-app.gentlepond-3fc0430c.eastus.azurecontainerapps.io
