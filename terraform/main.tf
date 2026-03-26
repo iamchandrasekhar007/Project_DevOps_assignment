@@ -10,6 +10,41 @@ resource "azurerm_log_analytics_workspace" "logs" {
   sku                 = "PerGB2018"
   depends_on = [ azurerm_resource_group.rg ]
 }
+resource "azurerm_monitor_metric_alert" "cpu_alert" {
+  name                = "container-app-cpu-alert"
+  resource_group_name = azurerm_resource_group.rg.name
+  scopes              = [azurerm_container_app.app.id]
+  description         = "Alert when CPU exceeds 80%"
+  severity            = 3
+  frequency           = "PT1M"
+  window_size         = "PT5M"
+
+  criteria {
+    metric_namespace = "Microsoft.App/containerApps"
+    metric_name      = "CpuUsage"
+    aggregation      = "Average"
+    operator         = "GreaterThan"
+    threshold        = 80
+  }
+}
+
+resource "azurerm_monitor_metric_alert" "memory_alert" {
+  name                = "container-app-memory-alert"
+  resource_group_name = azurerm_resource_group.rg.name
+  scopes              = [azurerm_container_app.app.id]
+  description         = "Alert when memory exceeds 75%"
+  severity            = 3
+  frequency           = "PT1M"
+  window_size         = "PT5M"
+
+  criteria {
+    metric_namespace = "Microsoft.App/containerApps"
+    metric_name      = "MemoryUsage"
+    aggregation      = "Average"
+    operator         = "GreaterThan"
+    threshold        = 75
+  }
+}
 
 resource "azurerm_container_registry" "acr" {
   name                = var.container_registry_name
@@ -53,9 +88,10 @@ resource "azurerm_container_app" "app" {
 }
 
 traffic_weight {
-  revision_name = "container-app--0000003"
+  latest_name = "container-app--0000003"
   percentage    = 50
 }
   }
   depends_on = [ azurerm_container_app_environment.env ]
 }
+
