@@ -1,0 +1,41 @@
+                       +---------------------+
+                       |   GitHub Repo       |
+                       |---------------------|
+                       | - App code          |
+                       | - Dockerfile        |
+                       | - GitHub Actions    |
+                       +----------+----------+
+                                  |
+                                  v
+                       +---------------------+
+                       | GitHub Actions CI/CD|
+                       |---------------------|
+                       | 1. Lint & Test      |
+                       | 2. Build Docker     |
+                       | 3. Push to ACR      |
+                       | 4. Deploy to ACA    |
+                       +----------+----------+
+                                  |
+                                  v
+                     +-------------------------+
+                     | Azure Container Registry|
+                     |       (containerregistry0011) |
+                     +----------+--------------+
+                                  |
+                                  v
+                   +-----------------------------+
+                   | Azure Container App         |
+                   | (container-app)             |
+                   |-----------------------------|
+                   | - Container App Environment |
+                   | - Revisions / Blue-Green    |
+                   | - Ingress (external URL)    |
+                   +----------+------------------+
+                                  |
+                                  v
+                    +--------------------------+
+                    | Log Analytics Workspace  |
+                    |  (loganalytics_workspace)|
+                    | - Monitoring             |
+                    | - Alerts / Metrics       |
+                    +--------------------------+
